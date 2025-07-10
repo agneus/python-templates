@@ -7,10 +7,10 @@ def lower_bound(a, target):
     while left <= right:
         mid = left + (right - left) // 2
 
-        if a[mid] >= target:
+        if a[mid] >= target: # condition is true
             answer = mid
-            right = mid - 1
-        else:
+            right = mid - 1 # search for better answer
+        else: # condition is false
             left = mid + 1
 
     return answer
