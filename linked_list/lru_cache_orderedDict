@@ -1,0 +1,19 @@
+from collections import OrderedDict
+
+class lru:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.map = OrderedDict()
+
+    def get(self, key):
+        if key not in self.map:
+            return -1
+        self.map.move_to_end(key)
+        return self.map[key]
+
+    def put(self, key, val):
+        if key in self.map:
+            self.map.move_to_end(key)
+        self.map[key] = val
+        if len(self.map) > self.capacity:
+            self.map.popitem(last=False)
