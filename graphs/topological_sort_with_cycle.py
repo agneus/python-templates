@@ -1,10 +1,12 @@
 # Topological Sort with Cycle Detection — refined DFS pattern
+# Here's the thing - this is for DAGs with natural edges u -> v.
+# If you have edges v -> u, like in course schedule, just return the order as is, not reversed.
 
 UNVISITED = 0
 VISITING  = 1
 VISITED   = 2
 
-def topo_sort_with_cycle(graph):
+def topo_sort_with_cycle(graph): # graph is an adjacency list
     n = len(graph)
     status = [UNVISITED] * n
     order = []
@@ -33,7 +35,7 @@ def topo_sort_with_cycle(graph):
         if has_cycle:
             return None  # cycle detected
 
-    return order[::-1]  # reverse post-order = topo order
+    return order[::-1]  # for DAGs with natural edges, for course schedule return order as is
 
 # Setup example (DAG)
 graph = [
