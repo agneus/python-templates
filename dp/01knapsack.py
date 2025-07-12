@@ -16,13 +16,14 @@ def knapsack(weights, values, capacity):
 
 
 # Setup exampleweights = [1, 2, 3]
+weights = [1, 2, 3]
 values = [10, 15, 40]
 capacity = 6
 print(knapsack(weights, values, capacity))  # 55    
 
 # 2d version
 
-def knapsack(weights, values, capacity):
+def knapsack_2d(weights, values, capacity):
     n = len(weights)
     dp = [[0] * (capacity + 1) for _ in range(n)]
 
@@ -42,3 +43,27 @@ def knapsack(weights, values, capacity):
                 dp[item][w] = max(dp[item][w], dp[item - 1][w - weight] + value)
 
     return dp[n - 1][capacity]
+
+# Memoization version
+def knapsack_memo(weights, values, capacity):
+    memo = {}
+
+    def helper(item_index, remaining_capacity):
+        if item_index < 0 or remaining_capacity <= 0:
+            return 0
+        key = (item_index, remaining_capacity)
+        if key in memo:
+            return memo[key]
+
+        # Don't take this item
+        not_take = helper(item_index - 1, remaining_capacity)
+
+        # Take this item (if it fits)
+        take = 0
+        if weights[item_index] <= remaining_capacity:
+            take = values[item_index] + helper(item_index - 1, remaining_capacity - weights[item_index])
+
+        memo[(item_index, remaining_capacity)] = max(not_take, take)
+        return memo[(item_index, remaining_capacity)]
+
+    return helper(len(weights) - 1, capacity)
