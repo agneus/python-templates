@@ -1,4 +1,4 @@
-# Cycle detection in a directed graph using DFS
+# Directed Cycle detection in a directed graph using DFS
 
 UNVISITED, VISITING, VISITED = 0, 1, 2
 

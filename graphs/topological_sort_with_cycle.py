@@ -6,36 +6,33 @@ UNVISITED = 0
 VISITING  = 1
 VISITED   = 2
 
-def topo_sort_with_cycle(graph): # graph is an adjacency list
+def topo_sort_with_cycle(graph):  # graph is an adjacency list
     n = len(graph)
     status = [UNVISITED] * n
     order = []
-    has_cycle = False
 
     def dfs(node):
-        nonlocal has_cycle
-        # 1) cycle check
+        # hit a node that is currently on the stack → cycle
         if status[node] == VISITING:
-            has_cycle = True
-            return
-        # 2) already done
+            return True  # cycle found
+        # already fully processed
         if status[node] == VISITED:
-            return
+            return False
 
-        status[node] = VISITING  # mark before exploring
+        status[node] = VISITING
         for nei in graph[node]:
-            dfs(nei)
-            if has_cycle:
-                return
+            if dfs(nei):
+                return True
         status[node] = VISITED
         order.append(node)
+        return False
 
     for u in range(n):
-        dfs(u)
-        if has_cycle:
-            return None  # cycle detected
+        if status[u] == UNVISITED:
+            if dfs(u):
+                return None  # cycle detected
 
-    return order[::-1]  # for DAGs with natural edges, for course schedule return order as is
+    return order[::-1]  # for "u -> v means u before v"
 
 # Setup example (DAG)
 graph = [
