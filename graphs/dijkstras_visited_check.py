@@ -6,8 +6,7 @@ def dijkstra(adj, src):
     dist[src] = 0
 
     visited = [False] * V
-
-    pq = [(0, src)]
+    pq = [(0, src)]  # (distance, node)
 
     while pq:
         d, u = heapq.heappop(pq)
@@ -17,8 +16,8 @@ def dijkstra(adj, src):
         visited[u] = True
 
         for v, wt in adj[u]:
-            if not visited[v] and dist[v] > dist[u] + wt:
-                dist[v] = dist[u] + wt
+            if dist[v] > d + wt:
+                dist[v] = d + wt
                 heapq.heappush(pq, (dist[v], v))
 
     return dist
